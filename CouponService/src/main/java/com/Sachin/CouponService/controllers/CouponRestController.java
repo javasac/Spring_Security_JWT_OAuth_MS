@@ -2,10 +2,12 @@ package com.Sachin.CouponService.controllers;
 import com.Sachin.CouponService.model.Coupon;
 import com.Sachin.CouponService.repos.CouponRepo;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PostAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/coupon")
+@CrossOrigin
 public class CouponRestController
 {
     @Autowired
@@ -18,6 +20,7 @@ public class CouponRestController
     }
 
     @GetMapping("/search/code/{code}")
+    @PostAuthorize("returnObject.discount < 500")
     public Coupon findByCode(@PathVariable String code)
     {
         return couponRepo.findByCode(code);
